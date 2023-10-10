@@ -1,0 +1,2 @@
+libelfin source: dh-exec-subst-unknown-variable debian/libelfin-dev.links LIBELFXX
+libelfin source: dh-exec-subst-unknown-variable debian/libelfin-dev.links LIBDWARFXX

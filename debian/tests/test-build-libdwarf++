@@ -1,0 +1,52 @@
+#!/bin/sh
+
+set -e
+
+CXXFLAGS="-std=c++11"
+PKGFLAGS="libdwarf++"
+
+PATH=/usr/sbin:$PATH
+export PATH
+
+at_exit() {
+    echo "info: test exiting"
+    rm -f x x.cpp x.o
+}
+
+trap at_exit INT TERM EXIT
+
+echo "Output from pkg-config --cflags $PKGFLAGS:"
+if pkg-config --cflags "$PKGFLAGS" ; then
+    echo "success: pkg-config call succeeded"
+else
+    echo "error: pkg-config call failed.  Skipping the rest of the tests"
+    exit 1
+fi
+
+buildtest() {
+    CC="$1"
+    CXX="$2"
+    cat > x.cpp <<EOF
+#include <dwarf/dwarf++.hh>
+dwarf::value v;
+std::string s = v.as_string();
+int main(int argc, char *argv[]) { return 0; }
+EOF
+    if "$CXX" $CXXFLAGS $(pkg-config --cflags "$PKGFLAGS") -c x.cpp &&
+       [ -e x.o ] ; then
+        echo "success: Compilation with $CC and $CXX produced x.o"
+    else
+        echo "error: Compilation with $CC and $CXX did not procduce x.o"
+    fi
+    if "$CXX" -o x x.o $(pkg-config --libs "$PKGFLAGS") &&
+       [ -e x ] ; then
+        echo "success: Linking with $CXX produced x"
+    else
+        echo "error: Linking with $CXX did not produce x"
+    fi
+}
+
+buildtest cc c++
+
+# Test problem with clang, where the GCC C++11 symbols are not recognized
+buildtest clang clang++
