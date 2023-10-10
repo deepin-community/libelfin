@@ -1,4 +1,53 @@
 #!/usr/bin/make -f
 
+# Uncomment to turn on verbose mode
+export DH_VERBOSE=1
+
+export DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/buildflags.mk
+# upstream does not use CPPFLAGS
+CXXFLAGS += $(CPPFLAGS)
+
+LIBVERSION = $(shell dpkg-parsechangelog -S version)
+
+define PKGNAME
+$(strip $(shell grep -E '^Package: lib$(1)\+\+.+$$' debian/control | cut -f 2 -d ':'))
+endef
+
+define LIBFILE
+$(patsubst debian/$(1)/%,%,$(wildcard debian/$(1)/usr/lib/$(DEB_HOST_MULTIARCH)/lib$(2)++.so.*))
+endef
+
+export LIBELFXX_PKG = $(call PKGNAME,elf)
+export LIBELFXX
+export LIBDWARFXX_PKG = $(call PKGNAME,dwarf)
+export LIBDWARFXX
+
+
 %:
 	dh $@
+
+override_dh_auto_build:
+	@echo $(CFLAGS)
+	@echo $(CXXFLAGS)
+	@echo $(LDFLAGS)
+	dh_auto_build -- LIBVERSION=$(LIBVERSION)
+
+override_dh_auto_install:
+	$(MAKE) install PREFIX=$(CURDIR)/debian/tmp/usr LIBVERSION=$(LIBVERSION)
+	sed -i -e 's|libdir=.*|libdir=/usr/lib/$(DEB_HOST_MULTIARCH)|' \
+		$(CURDIR)/debian/tmp/usr/lib/pkgconfig/*.pc
+	sed -i -e 's|includedir=.*|includedir=/usr/include/libelfin|' \
+		$(CURDIR)/debian/tmp/usr/lib/pkgconfig/*.pc
+
+override_dh_link: LIBELFXX=$(call LIBFILE,$(LIBELFXX_PKG),elf)
+override_dh_link: LIBDWARFXX=$(call LIBFILE,$(LIBDWARFXX_PKG),dwarf)
+override_dh_link:
+	dh_link
+
+override_dh_auto_clean:
+	$(MAKE) clean
+	$(MAKE) -C examples clean

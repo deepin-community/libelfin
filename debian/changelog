@@ -1,5 +1,122 @@
-template-repository (1.0-1) unstable; urgency=medium
+libelfin (0.3-3) unstable; urgency=medium
 
-  * Initial release
+  * Added g++ as test dependency. (Closes: 953681)
+  * Updated d/watch for current github links.
+  * Switched to debhelper compat level 12.
+  * Updated Standards-Version from 4.4.0 to 4.6.2.
+  * Added d/upstream/metadata.
 
- -- Tsic404 <liuheng@deepin.org>  Sat, 28 Jan 2023 13:46:49 +0800
+ -- Petter Reinholdtsen <pere@debian.org>  Mon, 13 Feb 2023 22:07:46 +0100
+
+libelfin (0.3-2.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * debian/patches: Remove const qualifier from setter (Closes: #953618,
+    #976450)
+
+ -- Sebastian Ramacher <sramacher@debian.org>  Sun, 06 Dec 2020 12:44:01 +0100
+
+libelfin (0.3-2) unstable; urgency=medium
+
+  [ Lluís Vilanova ]
+  * Update Vcs urls in debian/control to point to salsa.debian.org
+  * Update contact email for Lluís Vilanova
+  * Update to standards version 4.4.0
+
+ -- Petter Reinholdtsen <pere@debian.org>  Wed, 02 Sep 2020 18:49:43 +0200
+
+libelfin (0.3-1) unstable; urgency=medium
+
+  * New upstream version 0.3.
+    - Removed 0002-portable-uint64-print.patch and 0003-big-endian.patch
+      merged upstream.
+
+ -- Petter Reinholdtsen <pere@debian.org>  Sat, 03 Dec 2016 08:41:12 +0000
+
+libelfin (0.2-6) unstable; urgency=medium
+
+  * Added 0003-big-endian.patch from upstream to work on big endian
+    architectures.  (Closes: #844465)
+
+ -- Petter Reinholdtsen <pere@debian.org>  Fri, 02 Dec 2016 22:43:18 +0000
+
+libelfin (0.2-5) unstable; urgency=medium
+
+  * Added patch 0002-portable-uint64-print.patch to fix unportable printf().
+
+ -- Petter Reinholdtsen <pere@debian.org>  Tue, 15 Nov 2016 14:21:25 +0000
+
+libelfin (0.2-4) unstable; urgency=medium
+
+  * Dropped git build dependency, it is not needed thanks to
+    0001-Let-d-rules-override-library-version.patch.
+
+ -- Petter Reinholdtsen <pere@debian.org>  Sun, 13 Nov 2016 08:41:31 +0000
+
+libelfin (0.2-3) unstable; urgency=medium
+
+  * Corrected python build dependency to use python3-minimal.
+  * Added missing pkg-config build dependency.
+
+ -- Petter Reinholdtsen <pere@debian.org>  Sat, 12 Nov 2016 08:13:57 +0000
+
+libelfin (0.2-2) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Petter Reinholdtsen <pere@debian.org>  Fri, 11 Nov 2016 14:16:01 +0000
+
+libelfin (0.2-1) experimental; urgency=medium
+
+  [ Lluís Vilanova ]
+  * Update to latest upstream.
+  * New upstream version have new SONAME, adjust package names to match.
+
+  [ Petter Reinholdtsen ]
+  * Upload to experimental with the new package names.
+
+ -- Petter Reinholdtsen <pere@debian.org>  Tue, 04 Oct 2016 09:45:29 +0200
+
+libelfin (0.1+20160825.git.6eb10ca-6) unstable; urgency=medium
+
+  * Extended autopkgtest to use both gcc and clang, to expose problem
+    with c++11 symbols.
+
+ -- Petter Reinholdtsen <pere@debian.org>  Sun, 02 Oct 2016 08:58:11 +0000
+
+libelfin (0.1+20160825.git.6eb10ca-5) unstable; urgency=medium
+
+  * Added d/clean to remove generated files after build.
+  * Adjusted 0002-Add-support-for-dynamic-linking-with-libelf-and-libd.patch
+    and d/rules to get working pkg-config setup (Closes: #839287).
+
+ -- Petter Reinholdtsen <pere@debian.org>  Sat, 01 Oct 2016 15:12:15 +0000
+
+libelfin (0.1+20160825.git.6eb10ca-4) unstable; urgency=medium
+
+  * Added simple autopkgtest scripts to check if pkg-config and
+    compiling work.
+  * Added missing git build dependency to get version number in
+    pkg-config files.
+
+ -- Petter Reinholdtsen <pere@debian.org>  Fri, 30 Sep 2016 21:36:02 +0000
+
+libelfin (0.1+20160825.git.6eb10ca-3) unstable; urgency=medium
+
+  [ Lluís Vilanova ]
+  * Fix pattern to auto-detect package names
+
+ -- Petter Reinholdtsen <pere@debian.org>  Wed, 14 Sep 2016 20:54:54 +0000
+
+libelfin (0.1+20160825.git.6eb10ca-2) unstable; urgency=medium
+
+  * Add missing python-minimal (<< 3) build dependency.
+
+ -- Petter Reinholdtsen <pere@debian.org>  Wed, 14 Sep 2016 08:47:27 +0000
+
+libelfin (0.1+20160825.git.6eb10ca-1) unstable; urgency=low
+
+  [ Lluís Vilanova ]
+  * Initial upload (closes: #834123).
+
+ -- Petter Reinholdtsen <pere@debian.org>  Mon, 12 Sep 2016 20:29:19 +0200

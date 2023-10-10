@@ -1,0 +1,22 @@
+From 8d00031176c2025e53336992c1575d73b4f66b2b Mon Sep 17 00:00:00 2001
+From: Smertig <akaraevz@mail.ru>
+Date: Sun, 6 Sep 2020 20:19:00 +0300
+Subject: [PATCH] Remove const qualifier from setter
+
+---
+ elf/data.hh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/elf/data.hh b/elf/data.hh
+index ed5c7a1..4a60944 100644
+--- a/elf/data.hh
++++ b/elf/data.hh
+@@ -553,7 +553,7 @@ struct Sym<Elf64, Order>
+                 return (stb)(info >> 4);
+         }
+ 
+-        void set_binding(stb v) const
++        void set_binding(stb v)
+         {
+                 info = (info & 0xF) | ((unsigned char)v << 4);
+         }

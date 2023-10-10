@@ -1,0 +1,5 @@
+libelf++0: no-upstream-changelog
+
+# We're instead providing shlibs, since C++ symbol names change with compiler
+# versions
+libelf++0: no-symbols-control-file

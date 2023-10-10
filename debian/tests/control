@@ -1,0 +1,2 @@
+Tests: test-build-libelf++ test-build-libdwarf++
+Depends: @, pkg-config, clang, g++

@@ -1,0 +1,69 @@
+From: =?utf-8?q?Llu=C3=ADs_Vilanova?= <llvilanovag@gmail.com>
+Date: Mon, 3 Oct 2016 16:07:25 +0200
+Subject: Let d/rules override library version
+
+---
+ dwarf/Makefile | 9 +++++----
+ elf/Makefile   | 7 ++++---
+ 2 files changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/dwarf/Makefile b/dwarf/Makefile
+index 71456bd..da8808e 100644
+--- a/dwarf/Makefile
++++ b/dwarf/Makefile
+@@ -2,6 +2,8 @@
+ # Typically uses the major version.
+ SONAME = 0
+ 
++LIBVERSION = $(shell git describe --match 'v*' | sed -e s/^v//)
++
+ CXXFLAGS+=-g -O2 -Werror
+ override CXXFLAGS+=-std=c++0x -Wall -fPIC
+ 
+@@ -43,14 +45,13 @@ CLEAN += libdwarf++.so
+ # Create pkg-config for local library and headers. This will be
+ # transformed in to the correct global pkg-config by install.
+ libdwarf++.pc: always
+-	@(VER=$$(git describe --match 'v*' | sed -e s/^v//); \
+-	  echo "libdir=$$PWD"; \
++	@(echo "libdir=$$PWD"; \
+ 	  echo "includedir=$$PWD"; \
+ 	  echo ""; \
+ 	  echo "Name: libdwarf++"; \
+ 	  echo "Description: C++11 DWARF library"; \
+-	  echo "Version: $$VER"; \
+-	  echo "Requires: libelf++ = $$VER"; \
++	  echo "Version: $(LIBVERSION)"; \
++	  echo "Requires: libelf++ = $(LIBVERSION)"; \
+ 	  echo "Libs: -L\$${libdir} -ldwarf++"; \
+ 	  echo "Cflags: -I\$${includedir}") > $@
+ CLEAN += libdwarf++.pc
+diff --git a/elf/Makefile b/elf/Makefile
+index 9c7c224..3099846 100644
+--- a/elf/Makefile
++++ b/elf/Makefile
+@@ -2,6 +2,8 @@
+ # Typically uses the major version.
+ SONAME = 0
+ 
++LIBVERSION = $(shell git describe --match 'v*' | sed -e s/^v//)
++
+ CXXFLAGS+=-g -O2 -Werror
+ override CXXFLAGS+=-std=c++0x -Wall -fPIC
+ 
+@@ -42,13 +44,12 @@ CLEAN += libelf++.so
+ # Create pkg-config for local library and headers. This will be
+ # transformed in to the correct global pkg-config by install.
+ libelf++.pc: always
+-	@(VER=$$(git describe --match 'v*' | sed -e s/^v//); \
+-	  echo "libdir=$$PWD"; \
++	@(echo "libdir=$$PWD"; \
+ 	  echo "includedir=$$PWD"; \
+ 	  echo ""; \
+ 	  echo "Name: libelf++"; \
+ 	  echo "Description: C++11 ELF library"; \
+-	  echo "Version: $$VER"; \
++	  echo "Version: $(LIBVERSION)"; \
+ 	  echo "Libs: -L\$${libdir} -lelf++"; \
+ 	  echo "Cflags: -I\$${includedir}") > $@
+ CLEAN += libelf++.pc

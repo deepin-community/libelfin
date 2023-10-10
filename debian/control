@@ -1,15 +1,62 @@
-Source: template-repository
-Section: unknown
+Source: libelfin
+Section: libdevel
 Priority: optional
-Maintainer: Tsic404 <liuheng@deepin.org>
-Build-Depends: debhelper (>= 11)
-Standards-Version: 4.1.3
-Homepage: https://github.com/deepin-community/template-repository
-#Vcs-Browser: https://salsa.debian.org/debian/deepin-community-template-repository
-#Vcs-Git: https://salsa.debian.org/debian/deepin-community-template-repository.git
+Maintainer: Lluís Vilanova <llvilanovag@gmail.com>
+Uploaders: Petter Reinholdtsen <pere@debian.org>
+Build-Depends: debhelper-compat (= 12)
+ , dh-exec (>= 0.3)
+ , g++ (>= 4.7)
+ , python3-minimal
+ , pkg-config
+Standards-Version: 4.6.2
+Homepage: https://github.com/aclements/libelfin
+Vcs-Browser: https://salsa.debian.org/coz-team/libelfin
+Vcs-Git: https://salsa.debian.org/coz-team/libelfin.git
 
-Package: template-repository
+# NOTE: We provide separate "libelf++" and "libdwarf++" packages to let their
+# libraries evolve their ABI / SONAME independently.
+
+Package: libelf++0
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Multi-Arch: same
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: C++11 ELF parser
+ Libelfin is a from-scratch C++11 library for reading ELF binaries and DWARFv4
+ debug information.
+ .
+ Libelfin implements a syntactic layer for DWARF and ELF, but not a semantic
+ layer. Interpreting the information stored in DWARF DIE trees still requires a
+ great deal of understanding of DWARF, but libelfin will make sense of the bytes
+ for you.
+ .
+ This package contains the library to parse ELF binaries.
+
+Package: libdwarf++0
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends}, ${shlibs:Depends}, libelf++0 (= ${binary:Version})
+Description: C++11 DWARF parser
+ Libelfin is a from-scratch C++11 library for reading ELF binaries and DWARFv4
+ debug information.
+ .
+ Libelfin implements a syntactic layer for DWARF and ELF, but not a semantic
+ layer. Interpreting the information stored in DWARF DIE trees still requires a
+ great deal of understanding of DWARF, but libelfin will make sense of the bytes
+ for you.
+ .
+ This package contains the library to parse DWARFv4 debug information.
+
+Package: libelfin-dev
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends}, ${shlibs:Depends}, libdwarf++0 (= ${binary:Version})
+Description: C++11 ELF/DWARF parser (development files)
+ Libelfin is a from-scratch C++11 library for reading ELF binaries and DWARFv4
+ debug information.
+ .
+ Libelfin implements a syntactic layer for DWARF and ELF, but not a semantic
+ layer. Interpreting the information stored in DWARF DIE trees still requires a
+ great deal of understanding of DWARF, but libelfin will make sense of the bytes
+ for you.
+ .
+ This package contains development libraries and header files for libelfin.

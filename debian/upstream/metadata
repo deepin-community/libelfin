@@ -1,0 +1,8 @@
+---
+Name: libelfin
+Bug-Database: https://github.com/aclements/libelfin/issues
+Bug-Submit: https://github.com/aclements/libelfin/issues/new
+Documentation: https://github.com/aclements/libelfin/wiki
+CPE: cpe:/a:libelfin_project:libelfin
+Repository: https://github.com/aclements/libelfin.git
+Repository-Browse: https://github.com/aclements/libelfin
